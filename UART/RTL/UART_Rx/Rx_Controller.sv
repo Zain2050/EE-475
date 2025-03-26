@@ -1,6 +1,6 @@
 module Rx_Controller (
 	input logic clk, reset,
-	input start_detected, rx_done, parity_error, stop_bit_error,
+	input start_detected, rx_done, data_valid,
 	output logic rx_start, rx_sel, store_en
 );
 
@@ -25,8 +25,8 @@ module Rx_Controller (
 			end
 			RECEIVE: begin 
 				if (rx_done) begin
-					if (parity_error || stop_bit_error) n_state = IDLE;
-					else n_state = STORE;
+					if (data_valid) n_state = STORE;
+					else n_state = IDLE;
 				end
 				else n_state = RECEIVE;
 			end
